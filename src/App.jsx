@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Header from "./components/Header";
 import Tabs from "./components/Tabs";
 import TodoInput from "./components/TodoInput";
@@ -15,7 +15,11 @@ export default function App() {
   //   { input: "Say hi to gran gran", complete: true },
   // ];
 
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(() => {
+    const stored = localStorage?.getItem("todo-app");
+    return stored ? JSON.parse(stored) : [];
+  });
+
   const [selectedTab, setSelectedTab] = useState("All");
 
   function handleAddTodo(newTodo) {
@@ -57,13 +61,6 @@ export default function App() {
   function handleSaveDate(currentTodos) {
     localStorage.setItem("todo-app", JSON.stringify(currentTodos));
   }
-
-  useEffect(() => {
-    const storedTodos = localStorage.getItem("todo-app");
-    if (storedTodos) {
-      setTodos(JSON.parse(storedTodos));
-    }
-  }, []);
 
   return (
     <>
