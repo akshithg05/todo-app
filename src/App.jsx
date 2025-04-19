@@ -15,7 +15,7 @@ export default function App() {
   //   { input: "Say hi to gran gran", complete: true },
   // ];
 
-  const [todos, setTodos] = useState();
+  const [todos, setTodos] = useState([]);
   const [selectedTab, setSelectedTab] = useState("All");
 
   function handleAddTodo(newTodo) {
