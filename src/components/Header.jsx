@@ -1,5 +1,5 @@
 export default function Header({ todos }) {
-  const todosLength = todos.filter((todo) => !todo.complete).length;
+  const todosLength = todos?.filter((todo) => !todo.complete).length;
 
   const isTasksPlural = todosLength !== 1;
   const taskString = isTasksPlural ? "tasks" : "task";
