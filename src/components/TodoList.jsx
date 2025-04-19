@@ -11,9 +11,9 @@ export default function TodoList({
     selectedTab === "All"
       ? todos
       : selectedTab === "Completed"
-      ? todos.filter((todo) => todo.complete)
+      ? todos?.filter((todo) => todo.complete)
       : selectedTab === "Open"
-      ? todos.filter((todo) => !todo.complete)
+      ? todos?.filter((todo) => !todo.complete)
       : [];
 
   return (
