@@ -24,9 +24,7 @@ SuperCool Task Tracker is a clean, responsive, and interactive task management a
 
 | Dashboard | Task Filters |
 |----------|---------------|
-| ![Dashboard](![image](https://github.com/user-attachments/assets/3d29cb1f-7b30-4c05-bd7f-3ce7221b5f65)
-) | ![Filters](![image](https://github.com/user-attachments/assets/99646966-b41a-4f45-97c2-06a16e6fdcca)
-) |
+|![image](https://github.com/user-attachments/assets/3d29cb1f-7b30-4c05-bd7f-3ce7221b5f65)|![image](https://github.com/user-attachments/assets/99646966-b41a-4f45-97c2-06a16e6fdcca) |
 
 ---
 
