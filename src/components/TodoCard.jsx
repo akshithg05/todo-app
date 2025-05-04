@@ -20,6 +20,12 @@ export default function TodoCard({
             onChange={(e) => {
               setEditedInput(e.target.value);
             }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleEditTodo(todoIndex, editedInput);
+                setEditTodo(false);
+              }
+            }}
           />
         )}
         {!todo.complete && !editTodo && (

@@ -31,7 +31,7 @@ export default function App() {
       },
     ];
     setTodos(newTodoList);
-    handleSaveDate(newTodoList);
+    handleSaveData(newTodoList);
   }
 
   function handleDoneTodo(index) {
@@ -40,7 +40,7 @@ export default function App() {
     completedTodo.complete = !completedTodo.complete;
     newTodoList[index] = completedTodo;
     setTodos(newTodoList);
-    handleSaveDate(newTodoList);
+    handleSaveData(newTodoList);
   }
 
   function handleEditTodo(index, input) {
@@ -49,16 +49,16 @@ export default function App() {
     editedTodo.input = input;
     newTodoList[index] = editedTodo;
     setTodos(newTodoList);
-    handleSaveDate(newTodoList);
+    handleSaveData(newTodoList);
   }
 
   function handleDeleteTodo(index) {
     let newTodoList = todos.filter((todo, todoIndex) => index !== todoIndex);
     setTodos(newTodoList);
-    handleSaveDate(newTodoList);
+    handleSaveData(newTodoList);
   }
 
-  function handleSaveDate(currentTodos) {
+  function handleSaveData(currentTodos) {
     localStorage.setItem("todo-app", JSON.stringify(currentTodos));
   }
 
