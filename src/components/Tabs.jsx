@@ -1,4 +1,7 @@
+import { useAuth } from "../context/AuthContext";
+
 export default function Tab({ todos, selectedTab, setSelectedTab }) {
+  const { globalUser } = useAuth();
   const tabs = ["All", "Open", "Completed"];
   return (
     <nav className="tab-container">
@@ -19,7 +22,7 @@ export default function Tab({ todos, selectedTab, setSelectedTab }) {
             className={"tab-button " + (tab === selectedTab ? "tab-selected" : "")}
           >
             <h4>
-              {tab} <span>{numTasks}</span>
+              {tab} <span>{globalUser ? numTasks : 0}</span>
             </h4>
           </button>
         );

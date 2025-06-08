@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Tabs from "./components/Tabs";
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
+import { useAuth } from "./context/AuthContext";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function App() {
   // const initialTodos = [
@@ -14,12 +17,11 @@ export default function App() {
   //   { input: "Learn how to web design", complete: false },
   //   { input: "Say hi to gran gran", complete: true },
   // ];
+  const { globalUser, globalData, isLoading, setGlobalData } = useAuth();
+  const isAuthenticated = globalUser;
+  const isData = globalData && Object.keys(globalData || []).length;
 
-  const [todos, setTodos] = useState(() => {
-    const stored = localStorage?.getItem("todo-app");
-    return stored ? JSON.parse(stored) : [];
-  });
-
+  const [todos, setTodos] = useState([]);
   const [selectedTab, setSelectedTab] = useState("All");
 
   function handleAddTodo(newTodo) {
@@ -58,22 +60,47 @@ export default function App() {
     handleSaveData(newTodoList);
   }
 
-  function handleSaveData(currentTodos) {
-    localStorage.setItem("todo-app", JSON.stringify(currentTodos));
+  async function handleSaveData(currentTodos) {
+    if (!globalUser) return; // Ensure user is logged in
+
+    try {
+      const userRef = doc(db, "users", globalUser.uid);
+      await setDoc(userRef, { todos: currentTodos }, { merge: true });
+      setGlobalData((prev) => ({ ...prev, todos: currentTodos }));
+    } catch (err) {
+      console.error("Error saving todos to Firestore:", err);
+    }
   }
+
+  useEffect(() => {
+    if (globalData?.todos) {
+      setTodos(globalData.todos);
+    }
+  }, [globalData]);
 
   return (
     <>
       <Header todos={todos} />
       <Tabs todos={todos} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-      <TodoList
-        todos={todos}
-        selectedTab={selectedTab}
-        handleDeleteTodo={handleDeleteTodo}
-        handleDoneTodo={handleDoneTodo}
-        handleEditTodo={handleEditTodo}
-      />
-      <TodoInput handleAddTodo={handleAddTodo} handleDoneTodo={handleDoneTodo} />
+      <p></p>
+      {isLoading ? (
+        <div className="loading-info">Loading...</div>
+      ) : globalUser ? (
+        <>
+          <TodoList
+            todos={todos}
+            selectedTab={selectedTab}
+            handleDeleteTodo={handleDeleteTodo}
+            handleDoneTodo={handleDoneTodo}
+            handleEditTodo={handleEditTodo}
+          />
+          <TodoInput handleAddTodo={handleAddTodo} handleDoneTodo={handleDoneTodo} />
+        </>
+      ) : (
+        <div className="login-info">
+          <h2>Login to start adding items to your list!</h2>
+        </div>
+      )}
     </>
   );
 }
